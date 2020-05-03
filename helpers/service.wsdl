@@ -1,0 +1,101 @@
+<wsdl:definitions targetNamespace="http://www.webserviceX.NET" xmlns:http="http://schemas.xmlsoap.org/wsdl/http/" xmlns:mime="http://schemas.xmlsoap.org/wsdl/mime/" xmlns:s="http://www.w3.org/2001/XMLSchema" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/" xmlns:tm="http://microsoft.com/wsdl/mime/textMatching/" xmlns:tns="http://www.webserviceX.NET" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <wsdl:types>
+    <s:schema elementFormDefault="qualified" targetNamespace="http://www.webserviceX.NET">
+      <s:element name="GetStudent">
+        <s:complexType>
+        </s:complexType>
+      </s:element>
+      <s:element name="GetStudentResponse">
+        <s:complexType>
+          <s:sequence>
+            <s:element maxOccurs="1" minOccurs="0" name="GetStudentResult" type="s:string"/>
+          </s:sequence>
+        </s:complexType>
+      </s:element>
+      <s:element name="string" nillable="true" type="s:string"/>
+    </s:schema>
+  </wsdl:types>
+  <wsdl:message name="GetStudentSoapIn">...</wsdl:message>
+  <wsdl:message name="GetStudentSoapOut">
+    <wsdl:part element="tns:GetStudentResponse" name="parameters"/>
+  </wsdl:message>
+  
+  <wsdl:message name="GetStudentHttpGetOut">
+    <wsdl:part element="tns:string" name="Body"/>
+  </wsdl:message>
+  
+  <wsdl:message name="GetStudentHttpPostOut">
+    <wsdl:part element="tns:string" name="Body"/>
+  </wsdl:message>
+  <wsdl:portType name="StudentServiceSoap">
+    <wsdl:operation name="GetStudent">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get weather report for all major cities around the world.
+</wsdl:documentation>
+      <wsdl:input message="tns:GetStudentSoapIn"/>
+      <wsdl:output message="tns:GetStudentSoapOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="StudentServiceHttpGet">
+    <wsdl:operation name="GetStudent">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get weather report for all major cities around the world.
+</wsdl:documentation>
+      <wsdl:input message="tns:GetStudentHttpGetIn"/>
+      <wsdl:output message="tns:GetStudentHttpGetOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:portType name="StudentServiceHttpPost">
+    <wsdl:operation name="GetStudent">
+      <wsdl:documentation xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">Get weather report for all major cities around the world.
+</wsdl:documentation>
+      <wsdl:input message="tns:GetStudentHttpPostIn"/>
+      <wsdl:output message="tns:GetStudentHttpPostOut"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="StudentServiceSoap" type="tns:StudentServiceSoap">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="GetStudent">
+      <soap:operation soapAction="http://www.webserviceX.NET/GetStudent" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="StudentServiceHttpGet" type="tns:StudentServiceHttpGet">
+    <http:binding verb="GET"/>
+    <wsdl:operation name="GetStudent">
+      <http:operation location="/GetStudent"/>
+      <wsdl:input>
+        <http:urlEncoded/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:binding name="StudentServiceHttpPost" type="tns:StudentServiceHttpPost">
+    <http:binding verb="POST"/>
+    <wsdl:operation name="GetStudent">
+      <http:operation location="/GetStudent"/>
+      <wsdl:input>
+        <mime:content type="application/x-www-form-urlencoded"/>
+      </wsdl:input>
+      <wsdl:output>
+        <mime:mimeXml part="Body"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="StudentService">
+    <wsdl:port binding="tns:StudentServiceSoap" name="StudentServiceSoap">
+      <soap:address location="http://localhost:8000/wsdl"/>
+    </wsdl:port>
+    <wsdl:port binding="tns:StudentServiceHttpGet" name="StudentServiceHttpGet">
+      <http:address location="http://localhost:8000/wsdl"/>
+    </wsdl:port>
+    <wsdl:port binding="tns:StudentServiceHttpPost" name="StudentServiceHttpPost">
+      <http:address location="http://localhost:8000/wsdl"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>
